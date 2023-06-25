@@ -21,6 +21,9 @@ public class LoginPage extends JFrame {
     public Font font;
     boolean signTF;
     Clip ost;
+    SelectStage selectStage;
+    staticName sn = new staticName();
+    String name;
 
     public LoginPage() {
         setTitle("YourName");
@@ -126,9 +129,12 @@ public class LoginPage extends JFrame {
         LoginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = NameText.getText();
+                name = NameText.getText();
                 String password = PasswordText.getText();
                 signTF = isValidUser(name, password);
+
+                sn.name = name; //static name 변수에 멤버변수 name을 저장해
+
                 msgPanel.setLayout(null);
                 message.setText("");//message 라벨 내용 리셋
                 if (signTF == true) {
@@ -145,11 +151,11 @@ public class LoginPage extends JFrame {
                 okBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // cancel 버튼 눌렀을 때 처리할 내용
+                        // ok 버튼 눌렀을 때 처리할 내용
                         if (signTF == true) {
-                            dispose();
-                            new Frame_make();
                             ost.stop();
+                            dispose();
+                            selectStage = new SelectStage();
                             msgPanel.setVisible(false);
                         } else {
                             msgPanel.setVisible(false);
@@ -173,6 +179,7 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Main 클래스의 main 메소드를 호출하여 프로그램 종료
+                ost.stop();
                 Main.main(new String[]{});
                 // 현재 로그인 창은 닫아주어야 함
                 dispose();
@@ -188,6 +195,7 @@ public class LoginPage extends JFrame {
         SigninBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ost.stop();
                 SigninPage signinPage = new SigninPage();
                 signinPage.setVisible(true);
                 dispose();
@@ -213,6 +221,7 @@ public class LoginPage extends JFrame {
 
         // JFrame을 화면에 표시
         setVisible(true);
+
     }
 
     private static boolean isValidUser(String name, String password) {
